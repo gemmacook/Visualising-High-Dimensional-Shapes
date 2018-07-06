@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import diffpy.Structure 
 from scipy.spatial import distance
-
+import networkx as nx
 
 class PointCloud(object):
     def __init__(self, cifFilePath, superCell = False):
@@ -27,6 +27,10 @@ class PointCloud(object):
             threshold = lowestVals.max()    # Take the longest distance from k neighbours
             exceedsThresholdFlags = row > threshold
             self.adjacencyMatrix[i][exceedsThresholdFlags] = 0
+            
+    def createMST(self):
+        graph = nx.to_networkx_graph(self.adjacencyMatrix) # initialise graph
+        self.mst = nx.minimum_spanning_tree(graph)
             
     def plotPointCloud(self):
         xs = self.cartesianCoords[:,0]
