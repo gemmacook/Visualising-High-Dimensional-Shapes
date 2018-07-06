@@ -15,6 +15,9 @@ class PointCloud(object):
         self.molecule = diffpy.Structure.loadStructure(self.filePath)
         self.cartesianCoords = np.array(self.molecule.xyz_cartn)
         
+    def createAtomicFingerPrint(self):
+        print("adsfn")
+        
     def createAdjacencyMatrixNN(self, coords = None, knn = 10):    
         if coords is None:
             coords = self.cartesianCoords
@@ -32,7 +35,7 @@ class PointCloud(object):
         graph = nx.to_networkx_graph(self.adjacencyMatrix) # initialise graph
         self.mst = nx.minimum_spanning_tree(graph)
             
-    def plotPointCloud(self):
+    def plot(self):
         xs = self.cartesianCoords[:,0]
         ys = self.cartesianCoords[:,1]
         zs = self.cartesianCoords[:,2]
@@ -62,9 +65,3 @@ class PointCloud(object):
             xs.append(float(line[0]))
             ys.append(float(line[1]))
             zs.append(float(line[2]))
-
-
-filePath = '/home/cameron/Dropbox/T2_Dataset/molGeom/T2_2_num_molGeom.cif'
-pc = PointCloud(filePath)
-
-
